@@ -1,5 +1,8 @@
 # to access the database and retreive from the database
 import pymysql
+from flask import Flask, jsonify
+
+app = Flask(__name__)
 
 conn = pymysql.connect(
     host='localhost',
@@ -53,3 +56,6 @@ def delete_word(id):
 
     finally:
         conn.close()
+
+if __name__ == "__main__":
+    app.run(debug=True)

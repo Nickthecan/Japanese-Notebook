@@ -1,0 +1,7 @@
+:root {
+    --light-beige: #f8e4be;
+}
+
+body {
+    background-color: var(--light-beige);
+}

@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Unna:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+* {
+    font-family: "Noto-Sans", sans-serif;
+}
+:root {
+    --beige: #bb9f7e;
+    --white: #f2f2f2;
+    --black: #222222;
+}
+
+.vocabularyTile {
+    width: 300px;
+    height: 150px;
+    background-color: var(--beige);
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vocabularyTile h1 {
+    color: var(--black);
+}
+
