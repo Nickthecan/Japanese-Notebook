@@ -1,18 +1,29 @@
 # to access the database and retreive from the database
 import pymysql
 from flask import Flask, jsonify
+from flask_cors import CORS
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+HOST = os.getenv("HOST")
+USER = os.getenv("USER")
+PASSWORD = os.getenv("PASSWORD")
+DB = os.getenv("DB")
 
 app = Flask(__name__)
+CORS(app)
 
 conn = pymysql.connect(
-    host='localhost',
-    user='root',
-    password='littleCaesars',
-    db='japanese',
+    host= HOST,
+    user= USER,
+    password= PASSWORD,
+    db= DB,
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor
 )
 
+@app.route('/load_vocabulary_words', methods=["GET"])
 def retreive_words():
     try:
         with conn.cursor() as cursor:
@@ -21,8 +32,7 @@ def retreive_words():
 
             rows = cursor.fetchall()
 
-            for row in rows:
-                print(row)
+            return jsonify(rows)
     finally:
         conn.close()
 
@@ -56,6 +66,8 @@ def delete_word(id):
 
     finally:
         conn.close()
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
