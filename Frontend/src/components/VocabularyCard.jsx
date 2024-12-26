@@ -1,11 +1,9 @@
 import "../styles/VocabularyCard.css"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-const VocabularyCard = ( {english, japanese} ) => {
+const VocabularyCard = ( {id, english, japanese} ) => {
     const [shownWord, setShownWord] = useState(japanese)
     const [isEnglish, setEnglish] = useState(false)
-
-
 
     const flip = () => {
         if (!isEnglish) {
@@ -20,7 +18,7 @@ const VocabularyCard = ( {english, japanese} ) => {
 
     return(
         <>
-            <div className="vocabularyTile" onClick={flip}>
+            <div className="vocabularyTile" id={id} onClick={flip}>
                 <h1>{shownWord}</h1>
             </div>
         </>

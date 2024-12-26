@@ -13,8 +13,9 @@ const Vocabulary = () => {
     useEffect(() => {
         const fetchWords = async () => {
             try {
-                const words = await axios.get('/get_vocabulary_words')
-                setWords(words.data)
+                const response = await axios.get('http://127.0.0.1:5000/load_vocabulary_words')
+                setWords(response.data)
+                console.log("words found set", response.data)
             }
             catch (e) {
                 console.error(e)
@@ -26,11 +27,12 @@ const Vocabulary = () => {
     return (
         <>
             <NavBar />
-            <VocabularyChapter 
-                {words.map((word) => {
-                    <VocabularyCard english={word.english} japanese={word.japanese}/>
-                })}
-            />
+            {/* need to create a new id for what vocab chapter each word is in */}
+            <VocabularyChapter>
+                {words.length > 0 ? words.map((word, idx) => (
+                    <VocabularyCard key={idx} id={idx} english={word.english} japanese={word.japanese}/>
+                )) : <p>No Words Found...</p>}
+            </VocabularyChapter>
         </>
     );
 }
