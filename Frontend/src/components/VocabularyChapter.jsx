@@ -1,4 +1,4 @@
-
+import "../styles/VocabularyChapter.css"
 
 const VocabularyChapter = ( {id, children} ) => {
     return(

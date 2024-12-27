@@ -1,0 +1,43 @@
+:root {
+    --beige: #bb9f7e;
+    --white: #f2f2f2;
+    --black: #222222;
+    --purple: #a85cdb;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 15%;
+    margin: 10px;
+    height: 100px;
+}
+
+.nav-bar h1 {
+    color: var(--white);
+    font-size: 2rem;
+}
+
+.links {
+    display: flex;
+    gap: 30px;
+}
+
+.links a {
+    text-decoration: none;
+}
+
+.links li {
+    list-style: none;
+}
+
+.links h1 {
+    color: var(--white);
+    transition: 0.3s;
+    font-size: 3rem;
+}
+
+.links h1:hover {
+    color: var(--purple);
+}

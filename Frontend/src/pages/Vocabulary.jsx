@@ -28,11 +28,13 @@ const Vocabulary = () => {
         <>
             <NavBar />
             {/* need to create a new id for what vocab chapter each word is in */}
-            <VocabularyChapter>
-                {words.length > 0 ? words.map((word, idx) => (
-                    <VocabularyCard key={idx} id={idx} english={word.english} japanese={word.japanese}/>
-                )) : <p>No Words Found...</p>}
-            </VocabularyChapter>
+            <div className="workspace-of-words">
+                <VocabularyChapter>
+                    {words.length > 0 ? words.map((word, idx) => (
+                        <VocabularyCard key={idx} id={idx} english={word.english} japanese={word.japanese}/>
+                    )) : <p>No Words Found...</p>}
+                </VocabularyChapter>
+            </div>
         </>
     );
 }

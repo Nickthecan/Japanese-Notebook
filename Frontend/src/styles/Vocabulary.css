@@ -5,3 +5,10 @@
 body {
     background-color: var(--light-beige);
 }
+
+.workspace-of-words {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

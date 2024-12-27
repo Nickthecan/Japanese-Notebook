@@ -1,0 +1,7 @@
+.vocabularyChapter {
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 20px;
+    justify-items: center;
+}
