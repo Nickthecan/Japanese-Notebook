@@ -1,3 +1,13 @@
+:root {
+    --beige: #bb9f7e;
+    --white: #f2f2f2;
+    --black: #222222;
+}
+
+.chapter-name {
+    color: var(--black);
+}
+
 .vocabularyChapter {
     width: 70%;
     display: grid;

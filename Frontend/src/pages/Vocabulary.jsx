@@ -24,16 +24,33 @@ const Vocabulary = () => {
         fetchWords()
     }, [])
 
+    const groupIntoChapters = words.reduce((acc, word) => {
+        const { vocabularyChapter, vocabularyChapterName } = word;
+        if (!acc[vocabularyChapter]) {
+            acc[vocabularyChapter] = {
+                chapterName: vocabularyChapterName,
+                words: [],
+            }
+        }
+        acc[vocabularyChapter].words.push(word)
+        return acc
+    }, {})
+
     return (
         <>
             <NavBar />
             {/* need to create a new id for what vocab chapter each word is in */}
             <div className="workspace-of-words">
-                <VocabularyChapter>
-                    {words.length > 0 ? words.map((word, idx) => (
-                        <VocabularyCard key={idx} id={idx} english={word.english} japanese={word.japanese}/>
-                    )) : <p>No Words Found...</p>}
-                </VocabularyChapter>
+                {Object.entries(groupIntoChapters).length > 0 ? (
+                    Object.entries(groupIntoChapters).map(([chapterId, { chapterName, words }]) => (
+                        <vocabularyChapter key={chapterId} id={chapterId} chapterName={chapterName}>
+                            {words.map((word, idx) => (
+                                <VocabularyCard key={idx} id={idx} english={word.english} japanese={word.japanese}/>
+                            ))}
+                        </vocabularyChapter>
+                    )   
+                    )
+                ) : (<p>No words found ...</p>)}
             </div>
         </>
     );

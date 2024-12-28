@@ -1,10 +1,13 @@
 import "../styles/VocabularyChapter.css"
 
-const VocabularyChapter = ( {id, children} ) => {
+const VocabularyChapter = ( {id, chapterName, children} ) => {
     return(
-        <div className="vocabularyChapter" id={id}>
-            {children}
-        </div>
+        <>
+            <h1 className="chapter-name">{chapterName}</h1>
+            <div className="vocabularyChapter" id={id}>
+                {children}
+            </div>
+        </>
     )
 }
 

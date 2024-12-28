@@ -3,6 +3,7 @@
 * {
     font-family: "Noto-Sans", sans-serif;
 }
+
 :root {
     --beige: #bb9f7e;
     --white: #f2f2f2;
@@ -24,5 +25,6 @@
 
 .vocabularyTile h1 {
     color: var(--black);
+    cursor: default;
 }
 

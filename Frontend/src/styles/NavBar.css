@@ -17,6 +17,7 @@
 .nav-bar h1 {
     color: var(--white);
     font-size: 2rem;
+    cursor: default;
 }
 
 .links {
