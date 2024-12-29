@@ -24,6 +24,14 @@ const Vocabulary = () => {
         fetchWords()
     }, [])
 
+    /* useEffect(() => {
+        const addWord = async() => {
+            try {
+                const 
+            }
+        }
+    }) */
+
     const groupIntoChapters = words.reduce((acc, word) => {
         const { vocabularyChapter, vocabularyChapterName } = word;
         if (!acc[vocabularyChapter]) {
@@ -43,14 +51,16 @@ const Vocabulary = () => {
             <div className="workspace-of-words">
                 {Object.entries(groupIntoChapters).length > 0 ? (
                     Object.entries(groupIntoChapters).map(([chapterId, { chapterName, words }]) => (
-                        <vocabularyChapter key={chapterId} id={chapterId} chapterName={chapterName}>
+                        <VocabularyChapter key={chapterId} id={chapterId} chapterName={chapterName}>
                             {words.map((word, idx) => (
                                 <VocabularyCard key={idx} id={idx} english={word.english} japanese={word.japanese}/>
                             ))}
-                        </vocabularyChapter>
-                    )   
-                    )
+                        </VocabularyChapter>
+                    ))
                 ) : (<p>No words found ...</p>)}
+            </div>
+            <div className="add-word-button">
+                <button className="add-button"><h1>+</h1></button>
             </div>
         </>
     );

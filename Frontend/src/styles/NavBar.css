@@ -3,6 +3,7 @@
     --white: #f2f2f2;
     --black: #222222;
     --purple: #a85cdb;
+    --blue: #62b0d4;
 }
 
 .nav-bar {
@@ -40,5 +41,5 @@
 }
 
 .links h1:hover {
-    color: var(--purple);
+    color: var(--blue);
 }

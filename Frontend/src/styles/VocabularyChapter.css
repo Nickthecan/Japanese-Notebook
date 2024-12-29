@@ -4,8 +4,15 @@
     --black: #222222;
 }
 
+.chapter {
+    display: flex;
+    flex-direction: column;
+}
+
 .chapter-name {
     color: var(--black);
+    font-weight: 800;
+    font-size: 3rem;
 }
 
 .vocabularyChapter {
