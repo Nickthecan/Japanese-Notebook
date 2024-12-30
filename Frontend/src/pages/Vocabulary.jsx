@@ -1,6 +1,7 @@
 import NavBar from "../components/NavBar.jsx";
 import VocabularyCard from "../components/VocabularyCard.jsx";
 import VocabularyChapter from "../components/VocabularyChapter.jsx";
+import AddWord from "../components/AddWord.jsx";
 import "../styles/Vocabulary.css"
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -9,6 +10,7 @@ import axios from 'axios';
 const Vocabulary = () => {
     //create a function in order to populate the vocabulary word tiles
     const [words, setWords] = useState([]);
+    const [addWord, toggleAddWord] = useState(false)
 
     useEffect(() => {
         const fetchWords = async () => {
@@ -24,13 +26,9 @@ const Vocabulary = () => {
         fetchWords()
     }, [])
 
-    /* useEffect(() => {
-        const addWord = async() => {
-            try {
-                const 
-            }
-        }
-    }) */
+    const handleNewWord = (english, japanese, partOfSpeech, chapterNumber, chapterName) => {
+        axios.post('http://127.0.0.1:5000/add_vocabulary_word')
+    }
 
     const groupIntoChapters = words.reduce((acc, word) => {
         const { vocabularyChapter, vocabularyChapterName } = word;
@@ -43,6 +41,7 @@ const Vocabulary = () => {
         acc[vocabularyChapter].words.push(word)
         return acc
     }, {})
+
 
     return (
         <>
@@ -60,8 +59,9 @@ const Vocabulary = () => {
                 ) : (<p>No words found ...</p>)}
             </div>
             <div className="add-word-button">
-                <button className="add-button"><h1>+</h1></button>
+                <button className="add-button" onClick={() => toggleAddWord(true)}><h1>+</h1></button>
             </div>
+            {addWord && (<AddWord close={() => toggleAddWord(false)} addNewWord={handleNewWord} />)}
         </>
     );
 }

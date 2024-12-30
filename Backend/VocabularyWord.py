@@ -40,24 +40,25 @@ def retreive_words():
     finally:
         conn.close()
 
-def add_word(english, japanese, part_of_speech):
+@app.route('/add_vocabulary_word', methods=["POST"])
+def add_word(english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name):
     conn = connect_db()
     try:
         with conn.cursor() as cursor:
-            sql = "INSERT INTO `japanese.words` (`english`, `japanese`, `partOfSpeech`) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (english, japanese, part_of_speech))
+            sql = "INSERT INTO `japanese.words` (`english`, `japanese`, `partOfSpeech`, `vocabularyChapter`, `vocabularyChapterName`) VALUES (%s, %s, %s, %d, %s)"
+            cursor.execute(sql, (english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name))
         conn.commit()
     except Exception as e:
         print(f"Failed to add word: {e}")
     finally:
         conn.close()
 
-def update_word(id, english, japanese, part_of_speech):
+def update_word(id, english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name):
     conn = connect_db()
     try:
         with conn.cursor() as cursor:
-            sql = "UPDATE `japanese.words` SET `english` = %s, `japanese` = %s. `partOfSpeech` = %s WHERE `idwords` = %s"
-            cursor.execute(sql, (english, japanese, part_of_speech, id))
+            sql = "UPDATE `japanese.words` SET `english` = %s, `japanese` = %s, `partOfSpeech` = %s, `vocabularyChapter` = %d, `vocabularyChapterName` = %s WHERE `idwords` = %s"
+            cursor.execute(sql, (english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name, id))
         conn.commit()
     except Exception as e:
         print(f"Failed to update word: {e}")
