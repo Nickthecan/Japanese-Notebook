@@ -27,7 +27,16 @@ const Vocabulary = () => {
     }, [])
 
     const handleNewWord = (english, japanese, partOfSpeech, chapterNumber, chapterName) => {
-        axios.post('http://127.0.0.1:5000/add_vocabulary_word')
+        axios.post('http://127.0.0.1:5000/add_vocabulary_word', {
+            english, 
+            japanese, 
+            partOfSpeech, 
+            chapterNumber: parseInt(chapterNumber), 
+            chapterName
+        })
+        .catch((e) => {
+            console.error("error adding word", e)
+        })
     }
 
     const groupIntoChapters = words.reduce((acc, word) => {

@@ -1,6 +1,6 @@
 # to access the database and retreive from the database
 import pymysql
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -41,9 +41,17 @@ def retreive_words():
         conn.close()
 
 @app.route('/add_vocabulary_word', methods=["POST"])
-def add_word(english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name):
+def add_word():
     conn = connect_db()
     try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "no data provided"}), 400
+        english = data.get("english")
+        japanese = data.get("japanese")
+        part_of_speech = data.get("partOfSpeech")
+        vocabulary_chapter = int(data.get("chapterNumber"))
+        vocabulary_chapter_name = data.get("chapterName")
         with conn.cursor() as cursor:
             sql = "INSERT INTO `japanese.words` (`english`, `japanese`, `partOfSpeech`, `vocabularyChapter`, `vocabularyChapterName`) VALUES (%s, %s, %s, %d, %s)"
             cursor.execute(sql, (english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name))
