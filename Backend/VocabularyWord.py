@@ -47,17 +47,33 @@ def add_word():
         data = request.get_json()
         if not data:
             return jsonify({"error": "no data provided"}), 400
+        
         english = data.get("english")
         japanese = data.get("japanese")
         part_of_speech = data.get("partOfSpeech")
-        vocabulary_chapter = int(data.get("chapterNumber"))
+        vocabulary_chapter = int(data.get("chapterNumber", 0))
         vocabulary_chapter_name = data.get("chapterName")
+
+        if not all([english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name]):
+            return jsonify({"error": "not all fields filled out"}), 400
         with conn.cursor() as cursor:
-            sql = "INSERT INTO `japanese.words` (`english`, `japanese`, `partOfSpeech`, `vocabularyChapter`, `vocabularyChapterName`) VALUES (%s, %s, %s, %d, %s)"
+            sql = "INSERT INTO `words` (`english`, `japanese`, `partOfSpeech`, `vocabularyChapter`, `vocabularyChapterName`) VALUES (%s, %s, %s, %s, %s)"
             cursor.execute(sql, (english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name))
         conn.commit()
+
+        return jsonify({
+            "message": "word added successfully",
+            "word": {
+                "english": english, 
+                "japanese": japanese,
+                "partOfSpeech": part_of_speech,
+                "chapterNumber": vocabulary_chapter, 
+                "chapterName": vocabulary_chapter_name
+            }
+        }), 200
     except Exception as e:
         print(f"Failed to add word: {e}")
+        return jsonify({"error": "server error"}), 500
     finally:
         conn.close()
 
