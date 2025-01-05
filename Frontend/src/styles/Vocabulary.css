@@ -11,11 +11,16 @@ body {
 }
 
 .workspace-of-words {
-    margin-top: 100px;
+    margin: 100px 0 100px 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: start;
+}
+
+.workspace-of-words p {
+    font-size: 3rem;
+    font-weight: 700;
 }
 
 .add-word-button {

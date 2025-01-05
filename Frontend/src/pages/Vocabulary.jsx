@@ -26,17 +26,26 @@ const Vocabulary = () => {
         fetchWords()
     }, [])
 
-    const handleNewWord = (english, japanese, partOfSpeech, chapterNumber, chapterName) => {
-        axios.post('http://127.0.0.1:5000/add_vocabulary_word', {
-            english, 
-            japanese, 
-            partOfSpeech, 
-            chapterNumber: parseInt(chapterNumber), 
-            chapterName
-        })
-        .catch((e) => {
+    const handleNewWord = async (english, japanese, partOfSpeech, chapterNumber, chapterName) => {
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/add_vocabulary_word', {
+                english, 
+                japanese, 
+                partOfSpeech, 
+                chapterNumber: parseInt(chapterNumber), 
+                chapterName
+            })
+    
+            if (response.status === 200) {
+                const newWord = response.data.word;
+                setWords((prevWords) => [... prevWords, newWord])
+            }
+            else
+                console.error("failed to add the word", response.data)
+        }
+        catch(e) {
             console.error("error adding word", e)
-        })
+        }
     }
 
     const groupIntoChapters = words.reduce((acc, word) => {
@@ -55,7 +64,7 @@ const Vocabulary = () => {
     return (
         <>
             <NavBar />
-            {/* need to create a new id for what vocab chapter each word is in */}
+            
             <div className="workspace-of-words">
                 {Object.entries(groupIntoChapters).length > 0 ? (
                     Object.entries(groupIntoChapters).map(([chapterId, { chapterName, words }]) => (
