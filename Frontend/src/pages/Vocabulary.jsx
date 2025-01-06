@@ -79,7 +79,11 @@ const Vocabulary = () => {
             <div className="add-word-button">
                 <button className="add-button" onClick={() => toggleAddWord(true)}><h1>+</h1></button>
             </div>
-            {addWord && (<AddWord close={() => toggleAddWord(false)} addNewWord={handleNewWord} />)}
+            {addWord && (
+                <div className="dimmed-background">
+                    <AddWord close={() => toggleAddWord(false)} addNewWord={handleNewWord} />
+                </div>
+            )}
         </>
     );
 }

@@ -42,7 +42,9 @@ const AddWord = ( {close, addNewWord} ) => {
                 <input type="text" placeholder="Chapter Name" value={chapterName} onChange={(e) => setChapterName(e.target.value)} onKeyDown={handleEnter} />
             </div>
             {unfilledFieldsError && <div className="field-error"><p>{unfilledFieldsError}</p></div>}
-            <input type="submit" onClick={handleWordCreation} /> 
+            <div className="submit-word">
+                <input type="submit" onClick={handleWordCreation} /> 
+            </div>
         </div>
     )
 }
