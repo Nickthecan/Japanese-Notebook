@@ -1,0 +1,30 @@
+:root {
+    --light-beige: #f8e4be;
+    --beige: #bb9f7e;
+    --white: #f2f2f2;
+    --black: #222222;
+    --blue: #62b0d4;
+}
+
+.toTopButton {
+    width: 60px;
+    height: 60px;
+    bottom: 100px; 
+    right: 40px;
+    border: none;
+    font-weight: 600;
+    background-color: var(--blue);
+    color: var(--white);
+    border-radius: 10px;
+    position: fixed;
+    transform: translateY(80px);
+    z-index: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.toTopButton.visible {
+    transform: translateY(0);
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
+}

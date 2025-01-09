@@ -1,6 +1,7 @@
 import NavBar from "../components/NavBar.jsx";
 import VocabularyCard from "../components/VocabularyCard.jsx";
 import VocabularyChapter from "../components/VocabularyChapter.jsx";
+import ToTopButton from "../components/ToTopButton.jsx";
 import AddWord from "../components/AddWord.jsx";
 import "../styles/Vocabulary.css"
 import { useState, useEffect } from "react";
@@ -76,9 +77,8 @@ const Vocabulary = () => {
                     ))
                 ) : (<p>No words found ...</p>)}
             </div>
-            <div className="add-word-button">
-                <button className="add-button" onClick={() => toggleAddWord(true)}><h1>+</h1></button>
-            </div>
+            <button className="add-button" onClick={() => toggleAddWord(true)}><h1>+</h1></button>
+            <ToTopButton />
             {addWord && (
                 <div className="dimmed-background">
                     <AddWord close={() => toggleAddWord(false)} addNewWord={handleNewWord} />

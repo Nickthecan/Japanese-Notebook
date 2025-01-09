@@ -32,7 +32,7 @@ const AddWord = ( {close, addNewWord} ) => {
         <div className="add-word-container">
             <div className="title">
                 <h1>Add a Word</h1>
-                <button className="close-popup" onClick={close}>X</button>
+                <button className="close-popup" onClick={close}>x</button>
             </div>
             <div className="inputs-for-new-word">
                 <input type="text" placeholder="English" value={english} onChange={(e) => setEnglish(e.target.value)} onKeyDown={handleEnter} />
@@ -41,9 +41,9 @@ const AddWord = ( {close, addNewWord} ) => {
                 <input type="text" placeholder="Chapter Number" value={chapterNumber} onChange={(e) => setChapterNumber(e.target.value)} onKeyDown={handleEnter} />
                 <input type="text" placeholder="Chapter Name" value={chapterName} onChange={(e) => setChapterName(e.target.value)} onKeyDown={handleEnter} />
             </div>
-            {unfilledFieldsError && <div className="field-error"><p>{unfilledFieldsError}</p></div>}
             <div className="submit-word">
                 <input type="submit" onClick={handleWordCreation} /> 
+                {unfilledFieldsError && <div className="field-error"><p>{unfilledFieldsError}</p></div>}
             </div>
         </div>
     )
