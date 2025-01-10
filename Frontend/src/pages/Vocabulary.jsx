@@ -38,7 +38,9 @@ const Vocabulary = () => {
             })
     
             if (response.status === 200) {
-                const newWord = response.data.word;
+                const newWord = response.data.word
+                console.log(newWord)
+
                 setWords((prevWords) => [... prevWords, newWord])
             }
             else
@@ -50,7 +52,9 @@ const Vocabulary = () => {
     }
 
     const groupIntoChapters = words.reduce((acc, word) => {
-        const { vocabularyChapter, vocabularyChapterName } = word;
+        const vocabularyChapter = word.vocabularyChapter
+        const vocabularyChapterName = word.vocabularyChapterName
+        console.log(word.english + " " + word.vocabularyChapter + " " + word.vocabularyChapterName)
         if (!acc[vocabularyChapter]) {
             acc[vocabularyChapter] = {
                 chapterName: vocabularyChapterName,

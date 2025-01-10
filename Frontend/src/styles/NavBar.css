@@ -16,7 +16,7 @@
 }
 
 .nav-bar h1 {
-    color: var(--white);
+    color: var(--black);
     font-size: 2rem;
     cursor: default;
 }
@@ -35,7 +35,7 @@
 }
 
 .links h1 {
-    color: var(--white);
+    color: var(--black);
     transition: 0.3s;
     font-size: 3rem;
 }
