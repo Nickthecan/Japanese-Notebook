@@ -3,8 +3,9 @@ import VocabularyCard from "../components/VocabularyCard.jsx";
 import VocabularyChapter from "../components/VocabularyChapter.jsx";
 import ToTopButton from "../components/ToTopButton.jsx";
 import AddWord from "../components/AddWord.jsx";
+import OnKeyPress from "../components/OnKeyPress.jsx"
 import "../styles/Vocabulary.css"
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import axios from 'axios';
 
 
@@ -12,7 +13,7 @@ const Vocabulary = () => {
     //create a function in order to populate the vocabulary word tiles
     const [words, setWords] = useState([]);
     const [addWord, toggleAddWord] = useState(false)
-
+    
     useEffect(() => {
         const fetchWords = async () => {
             try {
@@ -26,7 +27,7 @@ const Vocabulary = () => {
         }
         fetchWords()
     }, [])
-
+    
     const handleNewWord = async (english, japanese, partOfSpeech, chapterNumber, chapterName) => {
         try {
             const response = await axios.post('http://127.0.0.1:5000/add_vocabulary_word', {
@@ -36,15 +37,23 @@ const Vocabulary = () => {
                 chapterNumber: parseInt(chapterNumber), 
                 chapterName
             })
-    
+            
             if (response.status === 200) {
                 const newWord = response.data.word
                 console.log(newWord)
 
-                setWords((prevWords) => [... prevWords, newWord])
+                setWords((prevWords) => [... prevWords, {
+                    newWord,
+                    english: newWord.english || english,
+                    japanese: newWord.japanese || japanese,
+                    partOfSpeech: newWord.partOfSpeech || partOfSpeech,
+                    vocabularyChapter: newWord.vocabularyChapter || chapterNumber,
+                    vocabularyChapterName: newWord.vocabularyChapterName || chapterName,    
+                }])
             }
-            else
+            else {
                 console.error("failed to add the word", response.data)
+            }
         }
         catch(e) {
             console.error("error adding word", e)
@@ -54,18 +63,22 @@ const Vocabulary = () => {
     const groupIntoChapters = words.reduce((acc, word) => {
         const vocabularyChapter = word.vocabularyChapter
         const vocabularyChapterName = word.vocabularyChapterName
-        console.log(word.english + " " + word.vocabularyChapter + " " + word.vocabularyChapterName)
         if (!acc[vocabularyChapter]) {
             acc[vocabularyChapter] = {
                 chapterName: vocabularyChapterName,
                 words: [],
             }
         }
-        acc[vocabularyChapter].words.push(word)
-        return acc
-    }, {})
-
-
+            acc[vocabularyChapter].words.push(word)
+            return acc
+        }, {})
+        
+    const handleAddWordPress = () => {
+        toggleAddWord(true)
+    }
+    
+    OnKeyPress(['a'], handleAddWordPress, {shift : true})
+    
     return (
         <>
             <NavBar />
@@ -75,7 +88,7 @@ const Vocabulary = () => {
                     Object.entries(groupIntoChapters).map(([chapterId, { chapterName, words }]) => (
                         <VocabularyChapter key={chapterId} id={chapterId} chapterName={chapterName}>
                             {words.map((word, idx) => (
-                                <VocabularyCard key={idx} id={idx} english={word.english} japanese={word.japanese}/>
+                                <VocabularyCard key={idx} id={idx} english={word.english} japanese={word.japanese} chapter={word.vocabularyChapter} chapterName={word.vocabularyChapterName}/>
                             ))}
                         </VocabularyChapter>
                     ))

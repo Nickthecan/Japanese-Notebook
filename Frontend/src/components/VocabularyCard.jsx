@@ -1,7 +1,7 @@
 import "../styles/VocabularyCard.css"
 import { useState } from "react"
 
-const VocabularyCard = ( {id, english, japanese} ) => {
+const VocabularyCard = ( {id, english, japanese, chapter, chapterName} ) => {
     const [shownWord, setShownWord] = useState(japanese)
     const [isEnglish, setEnglish] = useState(false)
 
@@ -18,7 +18,7 @@ const VocabularyCard = ( {id, english, japanese} ) => {
 
     return(
         <>
-            <div className="vocabularyTile" id={id} onClick={flip}>
+            <div className={`vocabularyTile chapter-${chapter} ${chapterName}`} id={id} onClick={flip}>
                 <h1>{shownWord}</h1>
             </div>
         </>
