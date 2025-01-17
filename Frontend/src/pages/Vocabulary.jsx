@@ -5,7 +5,7 @@ import ToTopButton from "../components/ToTopButton.jsx";
 import AddWord from "../components/AddWord.jsx";
 import OnKeyPress from "../components/OnKeyPress.jsx"
 import "../styles/Vocabulary.css"
-import { useCallback, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 
 
@@ -14,6 +14,7 @@ const Vocabulary = () => {
     const [words, setWords] = useState([]);
     const [addWord, toggleAddWord] = useState(false)
     
+    //fetch the words when the vocabulary site loads
     useEffect(() => {
         const fetchWords = async () => {
             try {
@@ -28,6 +29,7 @@ const Vocabulary = () => {
         fetchWords()
     }, [])
     
+    //when a new word is added, pass to the backend, then add onto the words hook list
     const handleNewWord = async (english, japanese, partOfSpeech, chapterNumber, chapterName) => {
         try {
             const response = await axios.post('http://127.0.0.1:5000/add_vocabulary_word', {
@@ -60,6 +62,7 @@ const Vocabulary = () => {
         }
     }
 
+    //when the site loads, take all of the words and group them based on vocabulary chapter names
     const groupIntoChapters = words.reduce((acc, word) => {
         const vocabularyChapter = word.vocabularyChapter
         const vocabularyChapterName = word.vocabularyChapterName
@@ -72,17 +75,17 @@ const Vocabulary = () => {
             acc[vocabularyChapter].words.push(word)
             return acc
         }, {})
-        
+    
+    // handles the shortcut for adding a new word
     const handleAddWordPress = () => {
         toggleAddWord(true)
-    }
-    
+    } 
     OnKeyPress(['a'], handleAddWordPress, {shift : true})
     
     return (
         <>
             <NavBar />
-            
+
             <div className="workspace-of-words">
                 {Object.entries(groupIntoChapters).length > 0 ? (
                     Object.entries(groupIntoChapters).map(([chapterId, { chapterName, words }]) => (

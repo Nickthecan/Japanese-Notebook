@@ -9,11 +9,13 @@ const AddWord = ( {close, addNewWord} ) => {
     const [partOfSpeech, setPartOfSpeech] = useState("")
     const [chapterNumber, setChapterNumber] = useState("")
     const [chapterName, setChapterName] = useState("")
-
+    //show error if some fields aren't filled out
     const [unfilledFieldsError, setUnfilledFieldsError] = useState("")
 
+    //useRef to focus on the first text field when opened using shortcuts
     const focusedFieldWhenOpened = useRef(null)
 
+    //sends the information from the text fields back to the main vocabulary page
     const handleWordCreation = () => {
         if (english.trim() === "" || japanese.trim() === "" || partOfSpeech.trim() === "" || chapterNumber.trim() === "" || chapterName.trim() === "") {
             setUnfilledFieldsError("Please fill out all the fields")
@@ -25,6 +27,7 @@ const AddWord = ( {close, addNewWord} ) => {
         close()
     }
 
+    //handles keyboard shortcuts to close the popup
     const handleEnter = () => {
         handleWordCreation()
     }
@@ -41,7 +44,6 @@ const AddWord = ( {close, addNewWord} ) => {
             focusedFieldWhenOpened.current.focus()
         }
     }, [])
-
 
     return (
         <div className="add-word-container">

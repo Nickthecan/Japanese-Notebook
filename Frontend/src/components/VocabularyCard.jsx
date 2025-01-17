@@ -5,6 +5,7 @@ const VocabularyCard = ( {id, english, japanese, chapter, chapterName} ) => {
     const [shownWord, setShownWord] = useState(japanese)
     const [isEnglish, setEnglish] = useState(false)
 
+    //toggle between english and japanese words
     const flip = () => {
         if (!isEnglish) {
             setShownWord(english)
