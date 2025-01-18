@@ -11,9 +11,11 @@ USER = os.getenv("USER")
 PASSWORD = os.getenv("PASSWORD")
 DB = os.getenv("DB")
 
+#flask app
 app = Flask(__name__)
 CORS(app)
 
+#function to connect to the db
 def connect_db():
     return pymysql.connect(
         host= HOST,
@@ -24,6 +26,7 @@ def connect_db():
         cursorclass=pymysql.cursors.DictCursor
     )
 
+#retreive words from the db
 @app.route('/load_vocabulary_words', methods=["GET"])
 def retreive_words():
     conn = connect_db()
@@ -40,6 +43,7 @@ def retreive_words():
     finally:
         conn.close()
 
+#adds a word into the db
 @app.route('/add_vocabulary_word', methods=["POST"])
 def add_word():
     conn = connect_db()
@@ -77,6 +81,7 @@ def add_word():
     finally:
         conn.close()
 
+#edits an entry in the db
 def update_word(id, english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name):
     conn = connect_db()
     try:
@@ -89,6 +94,7 @@ def update_word(id, english, japanese, part_of_speech, vocabulary_chapter, vocab
     finally:
         conn.close()
 
+#deletes a certain entry in the db
 def delete_word(id):
     conn = connect_db()
     try:
@@ -101,5 +107,6 @@ def delete_word(id):
     finally:
         conn.close()
 
+#main function to run the backend
 if __name__ == "__main__":
     app.run()
