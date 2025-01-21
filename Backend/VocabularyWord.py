@@ -82,8 +82,13 @@ def add_word():
         conn.close()
 
 #edits an entry in the db
-def update_word(id, english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name):
+@app.route('/edit_vocabulary_word', methods=["POST"])
+def update_word(english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name):
     conn = connect_db()
+    """ 
+    I don't think we can find the id of the word from the front end because each id is different. Like a new chapter will
+    start the id of the first word at 0 again. Need to find another way. 
+    """
     try:
         with conn.cursor() as cursor:
             sql = "UPDATE `japanese.words` SET `english` = %s, `japanese` = %s, `partOfSpeech` = %s, `vocabularyChapter` = %d, `vocabularyChapterName` = %s WHERE `idwords` = %s"
