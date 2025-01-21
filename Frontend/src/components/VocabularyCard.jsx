@@ -19,7 +19,7 @@ const VocabularyCard = ( {id, english, japanese, chapter, chapterName, isEditing
             <div className="flip">
                 <div className={`card chapter-${chapter} ${chapterName} ${(isEnglish && !isEditing) ? 'is-flipped' : ''}`} id={id} onClick={flip}>
                     <div className={`vocabularyTile front ${!isEditing ? "hover" : ""}`} >
-                        <button className={`edit-button-x ${isEditing ? "shown" : ""}`} onclick={editThatWord}><img src="../edit-icon.png" /></button>
+                        <button className={`edit-button-x ${isEditing ? "shown" : ""}`} onClick={editThatWord}><img src="../edit-icon.png" /></button>
                         <h1>{japanese}</h1>
                     </div>
                     <div className="vocabularyTile back"><h1>{english}</h1></div>
