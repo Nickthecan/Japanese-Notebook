@@ -44,12 +44,12 @@ const Vocabulary = () => {
                 const newWord = response.data.word
 
                 setWords((prevWords) => [... prevWords, {
-                    newWord,
+                    idwords: newWord.idwords,
                     english: newWord.english || english,
                     japanese: newWord.japanese || japanese,
                     partOfSpeech: newWord.partOfSpeech || partOfSpeech,
                     vocabularyChapter: newWord.vocabularyChapter || chapterNumber,
-                    vocabularyChapterName: newWord.vocabularyChapterName || chapterName,    
+                    vocabularyChapterName: newWord.vocabularyChapterName || chapterName,
                 }])
             }
             else {
@@ -63,9 +63,10 @@ const Vocabulary = () => {
 
     //need to find a way to find the key of the word in the backend first before changing it because the 
     //id of the words are all messed up. (each id starts at 0 when starting a new chapter)
-    const handleEditedWord = async (english, japanese, partOfSpeech, chapterNumber, chapterName) => {
+    const handleEditedWord = async (idwords, english, japanese, partOfSpeech, chapterNumber, chapterName) => {
         try {
             const response = await axios.post('http://127.0.0.1:5000/edit_vocabulary_word', {
+                idwords,
                 english, 
                 japanese, 
                 partOfSpeech, 
@@ -77,7 +78,7 @@ const Vocabulary = () => {
                 const newWord = response.data.word
 
                 setWords((prevWords) => [... prevWords, {
-                    newWord,
+                    idwords: newWord.idwords || idwords,
                     english: newWord.english || english,
                     japanese: newWord.japanese || japanese,
                     partOfSpeech: newWord.partOfSpeech || partOfSpeech,
@@ -126,8 +127,8 @@ const Vocabulary = () => {
                 {Object.entries(groupIntoChapters).length > 0 ? (
                     Object.entries(groupIntoChapters).map(([chapterId, { chapterName, words }]) => (
                         <VocabularyChapter key={chapterId} id={chapterId} chapterName={chapterName}>
-                            {words.map((word, idx) => (
-                                <VocabularyCard key={idx} id={idx} english={word.english} japanese={word.japanese} chapter={word.vocabularyChapter} chapterName={word.vocabularyChapterName} isEditing={editWords}/>
+                            {words.map((word) => (
+                                <VocabularyCard key={word.idwords} id={word.idwords} english={word.english} japanese={word.japanese} chapter={word.vocabularyChapter} chapterName={word.vocabularyChapterName} isEditing={editWords}/>
                             ))}
                         </VocabularyChapter>
                     ))

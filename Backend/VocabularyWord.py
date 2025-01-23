@@ -5,6 +5,17 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
+
+""" 
+IF THERE IS A FUCKING BUG IN THE CODE AND YOU ARE FIXING THE BACKEND, REFRESH THE FILE, RUN THAT SHIT AGAIN PLEASESEEEEEEEE
+I HAD TO DEBUG SOMETHING THAT WAS ALREADY WORKING BUT I JUST NEVER RERAN THE CODE, I THOUGHT THAT THIS WAS FRONTEND DEBUGGING 
+WHERE A SIMPLE CTRL S FIXES EVERYTHING. I GUESS NOT AND THIS IS A VERY GOOD LEARNING EXPERIENCE FOR ME !!!!!!!!!
+
+
+AHHH JUST DO CTRL R INSTEAD OF JUST CTRL S
+"""
+
+
 load_dotenv()
 HOST = os.getenv("HOST")
 USER = os.getenv("USER")
@@ -63,11 +74,14 @@ def add_word():
         with conn.cursor() as cursor:
             sql = "INSERT INTO `words` (`english`, `japanese`, `partOfSpeech`, `vocabularyChapter`, `vocabularyChapterName`) VALUES (%s, %s, %s, %s, %s)"
             cursor.execute(sql, (english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name))
+            id = cursor.lastrowid
+            print(f"Inserted word ID: {id}")
         conn.commit()
 
         return jsonify({
             "message": "word added successfully",
             "word": {
+                "idwords": id,
                 "english": english, 
                 "japanese": japanese,
                 "partOfSpeech": part_of_speech,
@@ -83,17 +97,36 @@ def add_word():
 
 #edits an entry in the db
 @app.route('/edit_vocabulary_word', methods=["POST"])
-def update_word(english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name):
+def update_word():
     conn = connect_db()
-    """ 
-    I don't think we can find the id of the word from the front end because each id is different. Like a new chapter will
-    start the id of the first word at 0 again. Need to find another way. 
-    """
     try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "no data provided"}), 400
+        
+        idwords = data.get("idwords")
+        english = data.get("english")
+        japanese = data.get("japanese")
+        part_of_speech = data.get("partOfSpeech")
+        vocabulary_chapter = int(data.get("chapterNumber", 0))
+        vocabulary_chapter_name = data.get("chapterName")
+
         with conn.cursor() as cursor:
-            sql = "UPDATE `japanese.words` SET `english` = %s, `japanese` = %s, `partOfSpeech` = %s, `vocabularyChapter` = %d, `vocabularyChapterName` = %s WHERE `idwords` = %s"
-            cursor.execute(sql, (english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name, id))
+            sql = "UPDATE `words` SET `english` = %s, `japanese` = %s, `partOfSpeech` = %s, `vocabularyChapter` = %s, `vocabularyChapterName` = %s WHERE `idwords` = %s"
+            cursor.execute(sql, (english, japanese, part_of_speech, vocabulary_chapter, vocabulary_chapter_name, idwords))
         conn.commit()
+
+        return jsonify({
+            "message": "word added successfully",
+            "word": {
+                "idwords": idwords,
+                "english": english, 
+                "japanese": japanese,
+                "partOfSpeech": part_of_speech,
+                "chapterNumber": vocabulary_chapter, 
+                "chapterName": vocabulary_chapter_name
+            }
+        }), 200
     except Exception as e:
         print(f"Failed to update word: {e}")
     finally:
@@ -104,7 +137,7 @@ def delete_word(id):
     conn = connect_db()
     try:
         with conn.cursor() as cursor:
-            sql = "DELETE FROM `japanese.words` WHERE `idwords` = %d"
+            sql = "DELETE FROM `words` WHERE `idwords` = %d"
             cursor.execute(sql, (id))
         conn.commit()
     except Exception as e:
@@ -114,4 +147,4 @@ def delete_word(id):
 
 #main function to run the backend
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
