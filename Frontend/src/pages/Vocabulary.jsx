@@ -112,6 +112,7 @@ const Vocabulary = () => {
     const editing = () => {
         toggleEditWords(!editWords)
     }
+    OnKeyPress(['e'], editing, {shift : true})
     
     // handles the shortcut for adding a new word
     const handleAddWordPress = () => {
@@ -128,7 +129,7 @@ const Vocabulary = () => {
                     Object.entries(groupIntoChapters).map(([chapterId, { chapterName, words }]) => (
                         <VocabularyChapter key={chapterId} id={chapterId} chapterName={chapterName}>
                             {words.map((word) => (
-                                <VocabularyCard key={word.idwords} id={word.idwords} english={word.english} japanese={word.japanese} chapter={word.vocabularyChapter} chapterName={word.vocabularyChapterName} isEditing={editWords}/>
+                                <VocabularyCard key={word.idwords} id={word.idwords} english={word.english} japanese={word.japanese} partOfSpeech={word.partOfSpeech} chapter={word.vocabularyChapter} chapterName={word.vocabularyChapterName} isEditing={editWords}/>
                             ))}
                         </VocabularyChapter>
                     ))
