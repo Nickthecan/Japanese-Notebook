@@ -108,7 +108,7 @@ def update_word():
         english = data.get("english")
         japanese = data.get("japanese")
         part_of_speech = data.get("partOfSpeech")
-        vocabulary_chapter = int(data.get("chapterNumber", 0))
+        vocabulary_chapter = data.get("chapterNumber")
         vocabulary_chapter_name = data.get("chapterName")
 
         with conn.cursor() as cursor:
@@ -129,6 +129,7 @@ def update_word():
         }), 200
     except Exception as e:
         print(f"Failed to update word: {e}")
+        return jsonify({"error": "server error"}), 500
     finally:
         conn.close()
 
@@ -137,11 +138,12 @@ def delete_word(id):
     conn = connect_db()
     try:
         with conn.cursor() as cursor:
-            sql = "DELETE FROM `words` WHERE `idwords` = %d"
+            sql = "DELETE FROM `words` WHERE `idwords` = %s"
             cursor.execute(sql, (id))
         conn.commit()
     except Exception as e:
         print(f"Failed to delete word: {e}")
+        return jsonify({"error": "server error"}), 500
     finally:
         conn.close()
 

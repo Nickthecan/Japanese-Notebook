@@ -17,19 +17,19 @@ const EditWord = ( {close, editThatWord, oldEnglish, oldJapanese, oldPartOfSpeec
 
     //sends the information from the text fields back to the main vocabulary page
     const handleWordChange = () => {
-        if (english.trim() === "" || japanese.trim() === "" || partOfSpeech.trim() === "" || chapterNumber.trim() === "" || chapterName.trim() === "") {
+        if (english.trim() === "" || japanese.trim() === "" || partOfSpeech.trim() === "" || chapterNumber.toString().trim() === "" || chapterName.trim() === "") {
             setUnfilledFieldsError("Please fill out all the fields")
             return
         }
         console.log(chapterName)
         console.log(chapterNumber)
-        addNewWord(english, japanese, partOfSpeech, chapterNumber, chapterName)
+        editThatWord(english, japanese, partOfSpeech, chapterNumber, chapterName)
         close()
     }
 
     //handles keyboard shortcuts to close the popup
     const handleEnter = () => {
-        editThatWord()
+        handleWordChange()
     }
 
     const handleClose = () => {

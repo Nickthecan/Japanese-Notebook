@@ -3,7 +3,7 @@
     import { useState } from "react"
     import axios from 'axios';
 
-    const VocabularyCard = ( {id, english, japanese, partOfSpeech, chapter, chapterName, isEditing} ) => {
+    const VocabularyCard = ( {id, english, japanese, partOfSpeech, chapter, chapterName, isEditing, handleTheEdit} ) => {
         //const [shownWord, setShownWord] = useState(japanese)
         const [isEnglish, setEnglish] = useState(false)
         const [editWord, toggleEditWord] = useState(false)
@@ -13,36 +13,8 @@
             setEnglish(!isEnglish)
         }
 
-        const handleEditedWord = async (idwords, english, japanese, partOfSpeech, chapterNumber, chapterName) => {
-            try {
-                const response = await axios.post('http://127.0.0.1:5000/edit_vocabulary_word', {
-                    idwords,
-                    english, 
-                    japanese, 
-                    partOfSpeech, 
-                    chapterNumber: parseInt(chapterNumber), 
-                    chapterName
-                })
-
-                if (response.status === 200) {
-                    const newWord = response.data.word
-
-                    setWords((prevWords) => [... prevWords, {
-                        idwords: newWord.idwords || idwords,
-                        english: newWord.english || english,
-                        japanese: newWord.japanese || japanese,
-                        partOfSpeech: newWord.partOfSpeech || partOfSpeech,
-                        vocabularyChapter: newWord.vocabularyChapter || chapterNumber,
-                        vocabularyChapterName: newWord.vocabularyChapterName || chapterName,    
-                    }])
-                }
-                else {
-                    console.error("failed to edit the word", response.data)
-                }
-            }
-            catch(e) {
-                console.error("error editing word", e)
-            }
+        const backUpToVocabulary = (newEnglish, newJapanese, newPartOfSpeech, newChapter, newChapterName) => {
+            handleTheEdit(id, newEnglish, newJapanese, newPartOfSpeech, newChapter, newChapterName)
         }
 
         return(
@@ -58,7 +30,7 @@
                 </div>
                 {editWord && (
                     <div className="dimmed-background">
-                        <EditWord close={() => toggleEditWord(false)} editThatWord={handleEditedWord}  
+                        <EditWord close={() => toggleEditWord(false)} editThatWord={backUpToVocabulary}  
                         oldEnglish={english} oldJapanese={japanese} oldPartOfSpeech={partOfSpeech} oldChapter={chapter} oldChapterName={chapterName} />
                     </div>
                 )}
