@@ -77,14 +77,18 @@ const Vocabulary = () => {
             if (response.status === 200) {
                 const newWord = response.data.word
 
-                setWords((prevWords) => [... prevWords, {
-                    idwords: newWord.idwords || idwords,
-                    english: newWord.english || english,
-                    japanese: newWord.japanese || japanese,
-                    partOfSpeech: newWord.partOfSpeech || partOfSpeech,
-                    vocabularyChapter: newWord.vocabularyChapter || chapterNumber,
-                    vocabularyChapterName: newWord.vocabularyChapterName || chapterName,    
-                }])
+                setWords((prevWords) => 
+                    prevWords.map((word) => 
+                        word.idwords === idwords ? {
+                            idwords: newWord.idwords,
+                            english: newWord.english || english,
+                            japanese: newWord.japanese || japanese,
+                            partOfSpeech: newWord.partOfSpeech || partOfSpeech,
+                            vocabularyChapter: newWord.vocabularyChapter || chapterNumber,
+                            vocabularyChapterName: newWord.vocabularyChapterName || chapterName,    
+                        } : word
+                    )
+                )    
             }
             else {
                 console.error("failed to edit the word", response.data)
@@ -92,6 +96,22 @@ const Vocabulary = () => {
         }
         catch(e) {
             console.error("error editing word", e)
+        }
+    }
+
+    const handleDeletedWord = async(idwords) => {
+        try {
+            const response = await axios.delete(`http://127.0.0.1:5000/delete_vocabulary_word?idwords=${idwords}`)
+
+            if (response.status === 200) {
+                setWords((prevWords) => prevWords.filter(word => word.idwords !== idwords))
+            }
+            else {
+                console.error("failed to delete the word", response.data)
+            }
+        }
+        catch(e) {
+            console.error("error deleting word", e)
         }
     }
 
@@ -112,6 +132,7 @@ const Vocabulary = () => {
     const editing = () => {
         toggleEditWords(!editWords)
     }
+    OnKeyPress(['e'], editing, {shift : true})
     
     // handles the shortcut for adding a new word
     const handleAddWordPress = () => {
@@ -128,7 +149,9 @@ const Vocabulary = () => {
                     Object.entries(groupIntoChapters).map(([chapterId, { chapterName, words }]) => (
                         <VocabularyChapter key={chapterId} id={chapterId} chapterName={chapterName}>
                             {words.map((word) => (
-                                <VocabularyCard key={word.idwords} id={word.idwords} english={word.english} japanese={word.japanese} chapter={word.vocabularyChapter} chapterName={word.vocabularyChapterName} isEditing={editWords}/>
+                                <VocabularyCard key={word.idwords} id={word.idwords} 
+                                english={word.english} japanese={word.japanese} partOfSpeech={word.partOfSpeech} chapter={word.vocabularyChapter} chapterName={word.vocabularyChapterName} 
+                                isEditing={editWords} handleTheEdit={handleEditedWord} handleTheDeletion={handleDeletedWord}/>
                             ))}
                         </VocabularyChapter>
                     ))

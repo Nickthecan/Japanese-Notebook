@@ -108,7 +108,7 @@ def update_word():
         english = data.get("english")
         japanese = data.get("japanese")
         part_of_speech = data.get("partOfSpeech")
-        vocabulary_chapter = int(data.get("chapterNumber", 0))
+        vocabulary_chapter = data.get("chapterNumber")
         vocabulary_chapter_name = data.get("chapterName")
 
         with conn.cursor() as cursor:
@@ -129,19 +129,27 @@ def update_word():
         }), 200
     except Exception as e:
         print(f"Failed to update word: {e}")
+        return jsonify({"error": "server error"}), 500
     finally:
         conn.close()
 
 #deletes a certain entry in the db
-def delete_word(id):
+@app.route('/delete_vocabulary_word', methods=["DELETE"])
+def delete_word():
     conn = connect_db()
     try:
+        id = request.args.get("idwords")
+        if not id:
+            return jsonify({"error": "no data provided"}), 400
+        
         with conn.cursor() as cursor:
-            sql = "DELETE FROM `words` WHERE `idwords` = %d"
-            cursor.execute(sql, (id))
+            sql = "DELETE FROM `words` WHERE `idwords` = %s"
+            cursor.execute(sql, (id,))
         conn.commit()
+        return jsonify({"message": "deleted word successfully"}), 200
     except Exception as e:
         print(f"Failed to delete word: {e}")
+        return jsonify({"error": "server error"}), 500
     finally:
         conn.close()
 
