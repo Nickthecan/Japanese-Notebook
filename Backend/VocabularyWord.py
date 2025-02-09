@@ -134,13 +134,19 @@ def update_word():
         conn.close()
 
 #deletes a certain entry in the db
-def delete_word(id):
+@app.route('/delete_vocabulary_word', methods=["DELETE"])
+def delete_word():
     conn = connect_db()
     try:
+        id = request.args.get("idwords")
+        if not id:
+            return jsonify({"error": "no data provided"}), 400
+        
         with conn.cursor() as cursor:
             sql = "DELETE FROM `words` WHERE `idwords` = %s"
-            cursor.execute(sql, (id))
+            cursor.execute(sql, (id,))
         conn.commit()
+        return jsonify({"message": "deleted word successfully"}), 200
     except Exception as e:
         print(f"Failed to delete word: {e}")
         return jsonify({"error": "server error"}), 500

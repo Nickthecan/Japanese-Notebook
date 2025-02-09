@@ -99,6 +99,22 @@ const Vocabulary = () => {
         }
     }
 
+    const handleDeletedWord = async(idwords) => {
+        try {
+            const response = await axios.delete(`http://127.0.0.1:5000/delete_vocabulary_word?idwords=${idwords}`)
+
+            if (response.status === 200) {
+                setWords((prevWords) => prevWords.filter(word => word.idwords !== idwords))
+            }
+            else {
+                console.error("failed to delete the word", response.data)
+            }
+        }
+        catch(e) {
+            console.error("error deleting word", e)
+        }
+    }
+
     //when the site loads, take all of the words and group them based on vocabulary chapter names
     const groupIntoChapters = words.reduce((acc, word) => {
         const vocabularyChapter = word.vocabularyChapter
@@ -135,7 +151,7 @@ const Vocabulary = () => {
                             {words.map((word) => (
                                 <VocabularyCard key={word.idwords} id={word.idwords} 
                                 english={word.english} japanese={word.japanese} partOfSpeech={word.partOfSpeech} chapter={word.vocabularyChapter} chapterName={word.vocabularyChapterName} 
-                                isEditing={editWords} handleTheEdit={handleEditedWord} />
+                                isEditing={editWords} handleTheEdit={handleEditedWord} handleTheDeletion={handleDeletedWord}/>
                             ))}
                         </VocabularyChapter>
                     ))

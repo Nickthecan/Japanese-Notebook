@@ -75,6 +75,34 @@
     outline: none;
 }
 
+.update-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.delete-word {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.delete-word input {
+    background-color:#ec2525;
+    border: 2px solid #ec2525;
+    width: 75px;
+    height: 30px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.delete-word input:hover {
+    background-color: #a71a1a;
+    border: 2px solid #a71a1a;
+}
+
 .submit-word {
     display: flex;
     flex-direction: column;
@@ -94,11 +122,12 @@
 
 .submit-word input:hover {
     background-color: #5ba4c5;
+    border: 2px solid #5ba4c5;
 }
 
 .field-error {
     font-size: 0.8rem;
-    color: rgb(236, 37, 37);
+    color: #ec2525;
     font-weight: 600;
 }
 

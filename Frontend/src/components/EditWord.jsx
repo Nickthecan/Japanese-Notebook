@@ -3,7 +3,7 @@ import onKeyPress from "../components/OnKeyPress.jsx";
 import "../styles/AddWord.css";
 
 
-const EditWord = ( {close, editThatWord, oldEnglish, oldJapanese, oldPartOfSpeech, oldChapter, oldChapterName} ) => {
+const EditWord = ( {close, editThatWord, deleteThatWord, id, oldEnglish, oldJapanese, oldPartOfSpeech, oldChapter, oldChapterName} ) => {
     const [english, setEnglish] = useState(oldEnglish)
     const [japanese, setJapanese] = useState(oldJapanese)
     const [partOfSpeech, setPartOfSpeech] = useState(oldPartOfSpeech)
@@ -25,6 +25,10 @@ const EditWord = ( {close, editThatWord, oldEnglish, oldJapanese, oldPartOfSpeec
         console.log(chapterNumber)
         editThatWord(english, japanese, partOfSpeech, chapterNumber, chapterName)
         close()
+    }
+
+    const handleWordDeletion = () => {
+        deleteThatWord(id)
     }
 
     //handles keyboard shortcuts to close the popup
@@ -58,9 +62,14 @@ const EditWord = ( {close, editThatWord, oldEnglish, oldJapanese, oldPartOfSpeec
                 <input type="text" placeholder="Chapter Number" value={chapterNumber} onChange={(e) => setChapterNumber(e.target.value)} />
                 <input type="text" placeholder="Chapter Name" value={chapterName} onChange={(e) => setChapterName(e.target.value)} />
             </div>
-            <div className="submit-word">
-                <input type="submit" onClick={handleWordChange} /> 
-                {unfilledFieldsError && <div className="field-error"><p>{unfilledFieldsError}</p></div>}
+            <div className="update-buttons">
+                <div className="delete-word">
+                    <input type="button" value="Delete" onClick={handleWordDeletion}/>
+                </div>
+                <div className="submit-word">
+                    <input type="submit" onClick={handleWordChange} /> 
+                    {unfilledFieldsError && <div className="field-error"><p>{unfilledFieldsError}</p></div>}
+                </div>
             </div>
         </div>
     )

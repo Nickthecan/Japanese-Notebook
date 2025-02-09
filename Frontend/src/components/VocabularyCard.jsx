@@ -3,7 +3,7 @@
     import { useState } from "react"
     import axios from 'axios';
 
-    const VocabularyCard = ( {id, english, japanese, partOfSpeech, chapter, chapterName, isEditing, handleTheEdit} ) => {
+    const VocabularyCard = ( {id, english, japanese, partOfSpeech, chapter, chapterName, isEditing, handleTheEdit, handleTheDeletion} ) => {
         //const [shownWord, setShownWord] = useState(japanese)
         const [isEnglish, setEnglish] = useState(false)
         const [editWord, toggleEditWord] = useState(false)
@@ -15,6 +15,10 @@
 
         const backUpToVocabulary = (newEnglish, newJapanese, newPartOfSpeech, newChapter, newChapterName) => {
             handleTheEdit(id, newEnglish, newJapanese, newPartOfSpeech, newChapter, newChapterName)
+        }
+
+        const backDeleteVocabulary = (id) => {
+            handleTheDeletion(id)
         }
 
         return(
@@ -30,8 +34,8 @@
                 </div>
                 {editWord && (
                     <div className="dimmed-background">
-                        <EditWord close={() => toggleEditWord(false)} editThatWord={backUpToVocabulary}  
-                        oldEnglish={english} oldJapanese={japanese} oldPartOfSpeech={partOfSpeech} oldChapter={chapter} oldChapterName={chapterName} />
+                        <EditWord close={() => toggleEditWord(false)} editThatWord={backUpToVocabulary} deleteThatWord={backDeleteVocabulary}
+                        id={id} oldEnglish={english} oldJapanese={japanese} oldPartOfSpeech={partOfSpeech} oldChapter={chapter} oldChapterName={chapterName} />
                     </div>
                 )}
             </>
