@@ -10,12 +10,39 @@ body {
     background-color: var(--light-beige);
 }
 
+.search {
+    display: flex;
+    height: 40px;
+    align-items: end;
+    gap: 20px
+}
+
+.search h1 {
+    color: var(--black);
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.search input {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--black);
+    transition: 0.5s border-bottom;
+}
+
+.search input:active {
+    border-bottom: 2px solid var(--blue);
+    border: none;
+}
+
 .workspace-of-words {
-    margin: 100px 0 100px 300px;
+    margin: 5% 0;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: start;
+    align-items: center;
 }
 
 .workspace-of-words p {

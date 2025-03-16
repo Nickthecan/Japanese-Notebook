@@ -54,6 +54,28 @@ def retreive_words():
     finally:
         conn.close()
 
+#retreive words from db according to chapter
+@app.route('/get_vocabulary_words_from_chapter', methods=["GET"])
+def retreive_words_from_chapter():
+    conn = connect_db()
+    try:
+        vocabulary_chapter = request.args.get('vocabularyChapter')
+
+        if not vocabulary_chapter:
+            return jsonify({"error": "no vocabulary chapter provided"}), 400
+
+        with conn.cursor() as cursor:
+            sql = "SELECT * FROM japanese.words WHERE `vocabularyChapter` = %s"
+            cursor.execute(sql, (vocabulary_chapter,))
+            words = cursor.fetchall()
+
+            return jsonify(words), 200
+    except Exception as e:
+        print(f"Failed to retreive words from {vocabulary_chapter}, {e}")
+        return jsonify({"error": "server error"}), 500
+    finally:
+        conn.close()
+
 #adds a word into the db
 @app.route('/add_vocabulary_word', methods=["POST"])
 def add_word():

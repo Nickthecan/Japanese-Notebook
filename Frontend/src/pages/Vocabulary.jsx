@@ -144,6 +144,10 @@ const Vocabulary = () => {
         <>
             <NavBar />
 
+            <div className="search">
+                <img src="../" alt="" />
+                <input type="text" />
+            </div>
             <div className="workspace-of-words">
                 {Object.entries(groupIntoChapters).length > 0 ? (
                     Object.entries(groupIntoChapters).map(([chapterId, { chapterName, words }]) => (
